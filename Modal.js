@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Animated, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Animated, Dimensions } from 'react-native'
+import {Ionicons} from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable';
+import { setInput, input, ha, handleAddText } from "./App";
 
 const { height } = Dimensions.get('window')
 
 const Modal = ({ show, close }) => {
-  const [input, setInput] = useState('');
-  
-  const [open, setOpen] = useState(false);
+
+  const add1Global = () => {
+    setInput();
+  };
+
+
   const [state, setState] = useState({
     opacity: new Animated.Value(0),
     container: new Animated.Value(height),
@@ -16,8 +21,8 @@ const Modal = ({ show, close }) => {
 
   const openModal = () => {
     Animated.sequence([
-      Animated.timing(state.container, { toValue: 0, duration: 100, useNativeDriver: true  }),
-      Animated.timing(state.opacity, { toValue: 1, duration: 300, useNativeDriver: true  }),
+      Animated.timing(state.container, { toValue: 0, duration: 100, useNativeDriver: true }),
+      Animated.timing(state.opacity, { toValue: 1, duration: 300, useNativeDriver: true }),
       Animated.spring(state.modal, { toValue: 0, bounciness: 5, useNativeDriver: true })
     ]).start()
   }
@@ -25,12 +30,10 @@ const Modal = ({ show, close }) => {
   const closeModal = () => {
     Animated.sequence([
       Animated.timing(state.modal, { toValue: height, duration: 250, useNativeDriver: true }),
-      Animated.timing(state.opacity, { toValue: 0, duration: 300, useNativeDriver: true  }),
-      Animated.timing(state.container, { toValue: height, duration: 100, useNativeDriver: true  })
+      Animated.timing(state.opacity, { toValue: 0, duration: 300, useNativeDriver: true }),
+      Animated.timing(state.container, { toValue: height, duration: 100, useNativeDriver: true })
     ]).start()
   }
-
-
 
   useEffect(() => {
     if(show){
@@ -42,7 +45,6 @@ const Modal = ({ show, close }) => {
 
   return( 
     <Animated.View 
-      useNativeDriver
       style={[styles.container, {
         opacity: state.opacity,
         transform: [
@@ -50,9 +52,7 @@ const Modal = ({ show, close }) => {
         ]
       }]}
     >
-      
       <Animated.View 
-        useNativeDriver
         style={[styles.modal, {
           transform: [
             { translateY: state.modal }
@@ -62,9 +62,16 @@ const Modal = ({ show, close }) => {
         <TouchableOpacity style={styles.btn} onPress={close}>
           <Text style={{ color: '#fff' }}>Close</Text>
         </TouchableOpacity>
-        <View style={styles.indicator} />
-
-        <Animatable.View style={styles.modalBody} animation="fadeInUp" useNativeDriver>
+          <View style={styles.modalHeader}>
+            <TouchableOpacity onPress= {() => setOpen(false)}>
+              <Ionicons style={{marginLeft:5, marginRight:5}} name="md-arrow-back" size={40} color="#FFF" />
+            </TouchableOpacity>
+            <Text style ={styles.modalTitle}>
+              Nova Tarefa
+            </Text>
+          </View>
+          
+          <Animatable.View style={styles.modalBody} animation="fadeInUp" useNativeDriver>
             <TextInput
               multiline={true}
               placeholderTextColor="#747474"
@@ -72,15 +79,13 @@ const Modal = ({ show, close }) => {
               placeholder="O que precisa fazer hoje?"
               style={styles.input}
               value={input}
-              onChangeText={(texto) => setInput(texto)}
+              onSubmitEditing={add1Global}
             />
 
-            <TouchableOpacity style={styles.handleAdd} onPress={handleAdd}>
-              <Text style={styles.handleAddText}>Cadastrar</Text>
+            <TouchableOpacity style={styles.ha} onPress={ha}>
+              <Text style={styles.hat}>Cadastrar</Text>
             </TouchableOpacity>
           </Animatable.View>  
-
-        
       </Animated.View>
     </Animated.View>
   )
@@ -96,28 +101,16 @@ const styles = StyleSheet.create({
   modal: {
     bottom: 0,
     position: 'absolute',
-    height: '60%',
+    height: '70%',
     backgroundColor: '#fff',
-    width: '95%',
+    width: '100%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingLeft: 25,
-    paddingRight: 25,
-    padding:50,
-    fontSize:9,
-    alignItems:'center'
+    paddingRight: 25
   },
-  indicator: {
-    width: 50,
-    height: 5,
-    backgroundColor: '#ccc',
-    borderRadius: 50,
-    alignSelf: 'center',
-    marginTop: 5
-  },
-  text: {
-    marginTop: 50,
-    textAlign: 'center'
+  modalBody:{
+    marginTop:15,
   },
   btn: {
     width: '100%',
@@ -127,22 +120,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 30
-  },
-  modalBody:{
-    marginTop:15,
-  },
-  handleAdd:{
-    backgroundColor:'#FFF',
-    marginTop:10 ,
-    alignItems:'center',
-    justifyContent: 'center',
-    marginLeft: 10,
-    marginRight:10,
-    height: 40,
-    borderRadius: 5,
-  },
-  handleAddText:{
-    fontSize:20,
   },
   input:{
     fontSize:15,
@@ -155,7 +132,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     color:'#000',
     borderRadius:5,
-  }
+  },
 })
 
-export default Modal;
+export default Modal

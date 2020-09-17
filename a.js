@@ -6,6 +6,7 @@ import TaskList from './src/components/TaskList/';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 
+
 const AnimatedBtn = Animatable.createAnimatableComponent(TouchableOpacity);
 
 export default function App(){
