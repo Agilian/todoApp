@@ -3,15 +3,15 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, Animated, Dimensio
 import {Ionicons} from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable';
 import { setInput, input,  handleAdd } from "./App";
-import * as Aa from './App';
+import * as App from './App';
 
 const { height } = Dimensions.get('window')
 const add1Global = () => {
-  Aa.setInput();
+  App.setInput();
 };
 const add1Cadastrar= () => {
-  alert('Passei1');
-  Aa.handleAdd();
+  alert(App.input);
+  //App.handleAdd();
 };
 const Modal = ({ show, close }) => {
 
@@ -83,7 +83,7 @@ const Modal = ({ show, close }) => {
               autoCorrect={false}
               placeholder="O que precisa fazer hoje?"
               style={styles.input}
-              value={Aa.input}
+              value={App.input}
               onSubmitEditing={add1Global}
             />
 

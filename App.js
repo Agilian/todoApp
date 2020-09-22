@@ -5,14 +5,11 @@ import * as Animatable from 'react-native-animatable';
 import {Ionicons} from '@expo/vector-icons';
 import TaskList from './src/components/TaskList/';
 import Modal from './Modal';
+
 const AnimatedBtn = Animatable.createAnimatableComponent(TouchableOpacity);
 
 
-
-
-
-
-const App = () => {
+export default function App(){
   const [modal, setModal] = useState(false)
   const [task, setTask] = useState([{
     key: 1, task: 'oninput'
@@ -20,7 +17,7 @@ const App = () => {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
 
-  const handleAdd =  useCallback(() => {
+  function handleAdd(){
     alert('oi');
     if(input === '') return;
     alert('oi2');
@@ -31,7 +28,7 @@ const App = () => {
     setTask([...task, data]);
     setOpen(false);
     setInput('');
-  })
+  }
 
  
 
@@ -120,5 +117,3 @@ const styles = StyleSheet.create({
     fontSize:20,
   },
 })
-
-export default App
