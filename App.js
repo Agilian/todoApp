@@ -7,29 +7,33 @@ import TaskList from './src/components/TaskList/';
 import Modal from './Modal';
 const AnimatedBtn = Animatable.createAnimatableComponent(TouchableOpacity);
 
-export let setInput = () => {};
-export let input = {};
 
-export let ha = function handleAdd(){
-  alert('oi');
-  if(input === '') return;
-  alert('oi2');
-  const data = {
-    key: input,
-    task: input
-  };
-  setTask([...task, data]);
-  setOpen(false);
-  setInput('');
-}
+
+
+
 
 const App = () => {
   const [modal, setModal] = useState(false)
-  var [task, setTask] = useState([]);
+  const [task, setTask] = useState([{
+    key: 1, task: 'oninput'
+  }]);
   const [open, setOpen] = useState(false);
-
-
   const [input, setInput] = useState('');
+
+  const handleAdd =  useCallback(() => {
+    alert('oi');
+    if(input === '') return;
+    alert('oi2');
+    const data = {
+      key: input,
+      task: input
+    };
+    setTask([...task, data]);
+    setOpen(false);
+    setInput('');
+  })
+
+ 
 
   //Buscando todas as tarefas ao iniciar o APP
   useEffect(() => {
@@ -66,34 +70,34 @@ const App = () => {
         useNativeDriver
       />
 
-<SafeAreaView style={styles.container}>
-<StatusBar backgroundColor="#171d31" barStyle="light-content">
+      <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor="#171d31" barStyle="light-content">
 
-</StatusBar>
-<View style={styles.content}>
-  <Text style={styles.title}>Tarefas</Text>
-</View>
+      </StatusBar>
+      <View style={styles.content}>
+        <Text style={styles.title}>Tarefas</Text>
+      </View>
 
-<FlatList
-margimHorizontal= {10}
-showsHorizontalScrollIndicator={false}
-data={task}
-keyExtractor={ (item) => String(item.key)}
-renderItem={ ({item}) => <TaskList data={item} handleDelete={handleDelete} />}
-/>
+      <FlatList
+      margimHorizontal= {10}
+      showsHorizontalScrollIndicator={false}
+      data={task}
+      keyExtractor={ (item) => String(item.key)}
+      renderItem={ ({item}) => <TaskList data={item} handleDelete={handleDelete} />}
+      />
 
 
 
-<AnimatedBtn
-style={styles.fab}
-useNativeDriver
-animation="bounceInUp"
-duration={1500}
-onPress={() => setModal(true)}
->
-  <Ionicons name="ios-add" size={35} color="#000"/>
-</AnimatedBtn>
-</SafeAreaView>
+      <AnimatedBtn
+      style={styles.fab}
+      useNativeDriver
+      animation="bounceInUp"
+      duration={1500}
+      onPress={() => setModal(true)}
+      >
+        <Ionicons name="ios-add" size={35} color="#000"/>
+      </AnimatedBtn>
+      </SafeAreaView>
 
 </View>
 

@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Animated, Dimensions } from 'react-native'
 import {Ionicons} from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable';
-import { setInput, input, ha, handleAddText } from "./App";
+import { setInput, input,  handleAdd } from "./App";
+import * as Aa from './App';
 
 const { height } = Dimensions.get('window')
-
+const add1Global = () => {
+  Aa.setInput();
+};
+const add1Cadastrar= () => {
+  alert('Passei1');
+  Aa.handleAdd();
+};
 const Modal = ({ show, close }) => {
 
-  const add1Global = () => {
-    setInput();
-  };
+
 
 
   const [state, setState] = useState({
@@ -78,11 +83,11 @@ const Modal = ({ show, close }) => {
               autoCorrect={false}
               placeholder="O que precisa fazer hoje?"
               style={styles.input}
-              value={input}
+              value={Aa.input}
               onSubmitEditing={add1Global}
             />
 
-            <TouchableOpacity style={styles.ha} onPress={ha}>
+            <TouchableOpacity style={styles.ha} onPress={add1Cadastrar}>
               <Text style={styles.hat}>Cadastrar</Text>
             </TouchableOpacity>
           </Animatable.View>  
